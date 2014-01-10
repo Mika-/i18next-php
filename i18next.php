@@ -5,14 +5,24 @@ class i18next {
 	private $_path = null;
 	private $_language = null;
 	private $_translation = array();
+	private static $_instance = null;
 
 
-	public function __construct($language = 'en', $path = null) {
+	private function __construct($language = 'en', $path = null) {
 
 		$this->_language = $language;
 		$this->_path = $path;
 
 		$this->loadTranslation();
+
+	}
+
+	public static function getInstance($language = 'en', $path = null) {
+
+		if (!isset(self::$_instance))
+			self::$_instance = new i18next($language, $path);
+
+		return self::$_instance;
 
 	}
 
