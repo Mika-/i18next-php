@@ -1,0 +1,18 @@
+{
+	"en": {
+		"common": {
+			"dog": "dog",
+			"dog_plural": "dogs",
+			"cat": "__count__ cat",
+			"cat_plural": "__count__ cats"
+		}
+	},
+	"fi": {
+		"common": {
+			"dog": "koira",
+			"dog_plural": "koiraa",
+			"cat": "__count__ kissa",
+			"cat_plural": "__count__ kissaa"
+		}
+	}
+}
