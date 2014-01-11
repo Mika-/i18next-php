@@ -8,7 +8,7 @@ class i18next {
 	private static $_instance = null;
 
 
-	private function __construct($language = 'en', $path = null) {
+	private function __construct($language, $path) {
 
 		$this->_language = $language;
 		$this->_path = $path;
@@ -28,19 +28,32 @@ class i18next {
 
 	private function loadTranslation() {
 
-		$path = $this->_path . 'translation.json';
+		$path = $this->_path;
 
-		$translation = file_get_contents($path);
+		$path = preg_replace('/__lng__/', $this->_language, $path);
 
-		if (!$translation)
+		if (!preg_match('/\.json$/', $path))
+			$path = $path . 'translation.json';
+
+		if (count(glob($path)) === 0)
 			throw new Exception('Translation file not found');
 
-		$translation = json_decode($translation, true);
+		foreach (glob($path) as $file) {
 
-		if (!$translation)
-			throw new Exception('Invalid json');
+			$translation = file_get_contents($file);
 
-		$this->_translation = array_merge($this->_translation, $translation);
+			$translation = json_decode($translation, true);
+
+			if (!$translation)
+				throw new Exception('Invalid json');
+
+			if (isset($translation[$this->_language]))
+				$this->_translation = $translation;
+
+			else
+				$this->_translation = array_merge($this->_translation, $translation);
+
+		}
 
 	}
 
