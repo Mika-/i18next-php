@@ -80,10 +80,7 @@ class i18next {
 
 		}
 
-		if (!$return && isset($variables['count']))
-			$return = $key . ' (__count__)';
-
-		else if (!$return)
+		if (!$return)
 			$return = $key;
 
 		foreach ($variables as $variable => $value)
