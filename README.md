@@ -6,6 +6,7 @@ PHP class for basic [i18next](https://github.com/jamuhl/i18next) functionality.
 
 - Support for variables
 - Support for basic plural forms
+- Support for basic sprintf
 
 ## Usage
 

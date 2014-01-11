@@ -76,15 +76,30 @@ class i18next {
 					$return = $translation[$path];
 
 				break;
+
 			}
+
+		}
+
+		if ($return && isset($variables['postProcess']) && $variables['postProcess'] === 'sprintf' && isset($variables['sprintf'])) {
+
+			if (is_array($variables['sprintf']))
+				$return = vsprintf($return, $variables['sprintf']);
+
+			else
+				$return = sprintf($return, $variables['sprintf']);
 
 		}
 
 		if (!$return)
 			$return = $key;
 
-		foreach ($variables as $variable => $value)
-			$return = preg_replace('/__' . $variable . '__/', $value, $return);
+		foreach ($variables as $variable => $value) {
+
+			if (is_string($value) || is_numeric($value))
+				$return = preg_replace('/__' . $variable . '__/', $value, $return);
+
+		}
 
 		return $return;
 
