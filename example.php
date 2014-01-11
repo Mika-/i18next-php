@@ -4,7 +4,11 @@ require_once('i18next.php');
 
 function t($key, $variables = array()) {
 
-	return i18next::getInstance('en')->getTranslation($key, $variables);
+	try {
+		return i18next::getInstance('en')->getTranslation($key, $variables);
+	} catch (Exception $e) {
+		echo 'Caught exception: ' . $e->getMessage();
+	}
 
 }
 

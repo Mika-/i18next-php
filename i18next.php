@@ -28,19 +28,19 @@ class i18next {
 
 	private function loadTranslation() {
 
-		$translation = file_get_contents($this->_path . 'translation.json');
+		$path = $this->_path . 'translation.json';
+
+		$translation = file_get_contents($path);
 
 		if (!$translation)
-			return false;
+			throw new Exception('Translation file not found');
 
 		$translation = json_decode($translation, true);
 
 		if (!$translation)
-			return false;
+			throw new Exception('Invalid json');
 
 		$this->_translation = array_merge($this->_translation, $translation);
-
-		return true;
 
 	}
 
