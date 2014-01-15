@@ -28,17 +28,17 @@ class i18next {
 
 	private function loadTranslation() {
 
-		$path = $this->_path;
-
-		$path = preg_replace('/__lng__/', $this->_language, $path);
+		$path = preg_replace('/__(.+?)__/', '*', $this->_path, 2, $hasNs);
 
 		if (!preg_match('/\.json$/', $path))
 			$path = $path . 'translation.json';
 
-		if (count(glob($path)) === 0)
+		$dir = glob($path);
+
+		if (count($dir) === 0)
 			throw new Exception('Translation file not found');
 
-		foreach (glob($path) as $file) {
+		foreach ($dir as $file) {
 
 			$translation = file_get_contents($file);
 
@@ -47,11 +47,46 @@ class i18next {
 			if (!$translation)
 				throw new Exception('Invalid json');
 
-			if (isset($translation[$this->_language]))
-				$this->_translation = $translation;
+			if ($hasNs) {
 
-			else
-				$this->_translation = array_merge($this->_translation, $translation);
+				$regexp = preg_replace('/__(.+?)__/', '(?<$1>.+)?', preg_quote($this->_path, '/'));
+				preg_match('/^' . $regexp . '$/', $file, $ns);
+
+				if (!array_key_exists('lng', $ns))
+					$ns['lng'] = $this->_language;
+
+				if (array_key_exists('ns', $ns)) {
+
+					if (array_key_exists($ns['lng'], $this->_translation) && array_key_exists($ns['ns'], $this->_translation[$ns['lng']]))
+						$this->_translation[$ns['lng']][$ns['ns']] = array_merge($this->_translation[$ns['lng']][$ns['ns']], array($ns['ns'] => $translation));
+
+					else if (array_key_exists($ns['lng'], $this->_translation))
+						$this->_translation[$ns['lng']] = array_merge($this->_translation[$ns['lng']], array($ns['ns'] => $translation));
+
+					else
+						$this->_translation[$ns['lng']] = array($ns['ns'] => $translation);
+
+				}
+				else {
+
+					if (array_key_exists($ns['lng'], $this->_translation))
+						$this->_translation[$ns['lng']] = array_merge($this->_translation[$ns['lng']], $translation);
+
+					else
+						$this->_translation[$ns['lng']] = $translation;
+
+				}
+
+			}
+			else {
+
+				if (array_key_exists($this->_language, $translation))
+					$this->_translation = $translation;
+
+				else
+					$this->_translation = array_merge($this->_translation, $translation);
+
+			}
 
 		}
 
