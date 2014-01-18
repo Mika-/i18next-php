@@ -11,11 +11,11 @@ PHP class for basic [i18next](https://github.com/jamuhl/i18next) functionality.
 ## Usage
 
 ```php
-// get i18next instance
-$i18next = i18next::getInstance('en');
+// init i18next instance
+i18next::init('en');
 
 // get translation by key
-echo $i18next->getTranslation('common.dog');
+echo i18next::getTranslation('common.dog');
 ```
 
 ## Methods
