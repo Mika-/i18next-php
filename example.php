@@ -2,13 +2,19 @@
 
 require_once('i18next.php');
 
+try {
+
+	i18next::init('en');
+
+} catch (Exception $e) {
+
+	echo 'Caught exception: ' . $e->getMessage();
+
+}
+
 function t($key, $variables = array()) {
 
-	try {
-		return i18next::getInstance('en')->getTranslation($key, $variables);
-	} catch (Exception $e) {
-		echo 'Caught exception: ' . $e->getMessage();
-	}
+	return i18next::getTranslation($key, $variables);
 
 }
 

@@ -20,14 +20,14 @@ echo $i18next->getTranslation('common.dog');
 
 ## Methods
 
-### i18next::getInstance( string $languageKey [, string $path = null ] );
-Loads `translation.json` from given path and returns i18next instance.
+### i18next::init( string $languageKey [, string $path = null ] );
+Loads `translation.json` from given path.
 ```php
-$i18next = i18next::getInstance('en', 'my/path/');
+i18next::init('en', 'my/path/');
 ```
 
-### string getTranslation( string $key [, array $variables = array() ] );
+### mixed i18next::getTranslation( string $key [, array $variables = array() ] );
 Returns translated string by key.
 ```php
-$i18next->getTranslation('common.cat', array('count' => 2, 'lng' => 'fi'));
+i18next::getTranslation('common.cat', array('count' => 2, 'lng' => 'fi'));
 ```
