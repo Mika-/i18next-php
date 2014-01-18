@@ -29,10 +29,10 @@ class i18next {
 
 		$return = false;
 
-		if (isset($variables['lng']) && isset(self::$_translation[$variables['lng']]))
+		if (array_key_exists('lng', $variables) && array_key_exists($variables['lng'], self::$_translation))
 			$translation = self::$_translation[$variables['lng']];
 
-		else if (isset(self::$_translation[self::$_language]))
+		else if (array_key_exists(self::$_language, self::$_translation))
 			$translation = self::$_translation[self::$_language];
 
 		else
@@ -40,17 +40,17 @@ class i18next {
 
 		foreach (explode('.', $key) as $path) {
 
-			if (isset($translation[$path]) && is_array($translation[$path])) {
+			if (array_key_exists($path, $translation) && is_array($translation[$path])) {
 
 				$translation = $translation[$path];
 
 			}
-			else if (isset($translation[$path])) {
+			else if (array_key_exists($path, $translation)) {
 
-				if (isset($variables['count']) && $variables['count'] != 1 && isset($translation[$path . '_plural_' . $variables['count']]))
+				if (array_key_exists('count', $variables) && $variables['count'] != 1 && array_key_exists($path . '_plural_' . $variables['count'], $translation))
 					$return = $translation[$path . '_plural' . $variables['count']];
 
-				else if (isset($variables['count']) && $variables['count'] != 1 && isset($translation[$path . '_plural']))
+				else if (array_key_exists('count', $variables) && $variables['count'] != 1 && array_key_exists($path . '_plural', $translation))
 					$return = $translation[$path . '_plural'];
 
 				else
