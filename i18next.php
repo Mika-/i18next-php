@@ -62,6 +62,9 @@ class i18next {
 
 		}
 
+		if (!$return && is_array($translation))
+			$return = $translation;
+
 		if ($return && isset($variables['postProcess']) && $variables['postProcess'] === 'sprintf' && isset($variables['sprintf'])) {
 
 			if (is_array($variables['sprintf']))
