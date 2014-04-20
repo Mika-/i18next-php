@@ -31,45 +31,20 @@ class i18next {
 
 	}
 
+	public static function existTranslation($key) {
+
+		$return = self::_getKey($key);
+
+		if ($return)
+			$return = true;
+
+		return $return;
+
+	}
+
 	public static function getTranslation($key, $variables = array()) {
 
-		$return = false;
-
-		if (array_key_exists('lng', $variables) && array_key_exists($variables['lng'], self::$_translation))
-			$translation = self::$_translation[$variables['lng']];
-
-		else if (array_key_exists(self::$_language, self::$_translation))
-			$translation = self::$_translation[self::$_language];
-
-		else
-			$translation = array();
-
-		foreach (explode('.', $key) as $path) {
-
-			if (array_key_exists($path, $translation) && is_array($translation[$path])) {
-
-				$translation = $translation[$path];
-
-			}
-			else if (array_key_exists($path, $translation)) {
-
-				if (array_key_exists('count', $variables) && $variables['count'] != 1 && array_key_exists($path . '_plural_' . $variables['count'], $translation))
-					$return = $translation[$path . '_plural' . $variables['count']];
-
-				else if (array_key_exists('count', $variables) && $variables['count'] != 1 && array_key_exists($path . '_plural', $translation))
-					$return = $translation[$path . '_plural'];
-
-				else
-					$return = $translation[$path];
-
-				break;
-
-			}
-
-		}
-
-		if (!$return && (!is_array($translation) || (is_array($translation) && isset($variables['returnObjectTrees']) && $variables['returnObjectTrees'] === true)))
-			$return = $translation;
+		$return = self::_getKey($key, $variables);
 
 		if ($return && isset($variables['postProcess']) && $variables['postProcess'] === 'sprintf' && isset($variables['sprintf'])) {
 
@@ -158,6 +133,50 @@ class i18next {
 			}
 
 		}
+
+	}
+
+	private static function _getKey($key, $variables = array()) {
+
+		$return = false;
+
+		if (array_key_exists('lng', $variables) && array_key_exists($variables['lng'], self::$_translation))
+			$translation = self::$_translation[$variables['lng']];
+
+		else if (array_key_exists(self::$_language, self::$_translation))
+			$translation = self::$_translation[self::$_language];
+
+		else
+			$translation = array();
+
+		foreach (explode('.', $key) as $path) {
+
+			if (array_key_exists($path, $translation) && is_array($translation[$path])) {
+
+				$translation = $translation[$path];
+
+			}
+			else if (array_key_exists($path, $translation)) {
+
+				if (array_key_exists('count', $variables) && $variables['count'] != 1 && array_key_exists($path . '_plural_' . $variables['count'], $translation))
+					$return = $translation[$path . '_plural' . $variables['count']];
+
+				else if (array_key_exists('count', $variables) && $variables['count'] != 1 && array_key_exists($path . '_plural', $translation))
+					$return = $translation[$path . '_plural'];
+
+				else
+					$return = $translation[$path];
+
+				break;
+
+			}
+
+		}
+
+		if (is_array($translation) && isset($variables['returnObjectTrees']) && $variables['returnObjectTrees'] === true)
+			$return = $translation;
+
+		return $return;
 
 	}
 
