@@ -62,7 +62,7 @@ class i18next {
 
 		}
 
-		if (!$return && is_array($translation))
+		if (!$return && (!is_array($translation) || (is_array($translation) && isset($variables['returnObjectTrees']) && $variables['returnObjectTrees'] === true)))
 			$return = $translation;
 
 		if ($return && isset($variables['postProcess']) && $variables['postProcess'] === 'sprintf' && isset($variables['sprintf'])) {
