@@ -25,6 +25,12 @@ class i18next {
 
 	}
 
+	public static function setLanguage($language) {
+
+		self::$_language = $language;
+
+	}
+
 	public static function getTranslation($key, $variables = array()) {
 
 		$return = false;
