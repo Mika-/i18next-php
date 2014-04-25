@@ -121,8 +121,11 @@ class i18next {
             array_push(self::$_missingTranslation, array('language' => self::$_language, 'key' => $key));
 
         // fallback language check
-        if ($return === false && !isset($variables['lng']) && !empty(self::$_fallbackLanguage))
+        if (!$return && !isset($variables['lng']) && !empty(self::$_fallbackLanguage))
             $return = self::_getKey($key, array_merge($variables, array('lng'=>  self::$_fallbackLanguage)));
+
+        if (!$return && array_key_exists('defaultValue', $variables))
+            $return = $variables['defaultValue'];
 
         if ($return && isset($variables['postProcess']) && $variables['postProcess'] === 'sprintf' && isset($variables['sprintf'])) {
 
