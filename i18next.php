@@ -14,8 +14,20 @@ class i18next {
 	private static $_path = null;
 	private static $_language = null;
 	private static $_translation = array();
-
-
+        /**
+         * Fall back language for translations not found in current language
+         * @var string fall back language
+         */
+        private static $_fallBackLanguage = 'dev';
+        
+        /**
+         * Inits i18next static class...
+         * 
+         * path may include __lng___ and __ns__ placeholders so all languages and namespaces are loaded!
+         * 
+         * @param string $language locale language code
+         * @param string $path path to locale json files
+         */
 	public static function init($language = 'en', $path = null) {
 
 		self::$_language = $language;
@@ -25,10 +37,18 @@ class i18next {
 
 	}
 
-	public static function setLanguage($language) {
-
+        /**
+         * Change default language and fall back language
+         * If fallback is not set it is left unchanged
+         * 
+         * @param string $language New default language
+         * @param string $fallback Fallback language
+         */
+	public static function setLanguage($language,$fallback=null) {
 		self::$_language = $language;
-
+		if (!empty($fallback)) {
+                    self::$_fallBackLanguage = $fallback;
+                }
 	}
 
 	public static function existTranslation($key) {
@@ -70,12 +90,19 @@ class i18next {
 
 	}
 
+        /**
+         * Loads translation(s)
+         * @throws Exception
+         */
 	private static function loadTranslation() {
 
 		$path = preg_replace('/__(.+?)__/', '*', self::$_path, 2, $hasNs);
 
-		if (!preg_match('/\.json$/', $path))
+		if (!preg_match('/\.json$/', $path)) {
 			$path = $path . 'translation.json';
+                        // Fix for ns & lng parser to work since it references self::$_path 
+                        self::$_path = self::$_path . 'translation.json';
+                }
 
 		$dir = glob($path);
 
@@ -136,6 +163,16 @@ class i18next {
 
 	}
 
+        /**
+         * Get translation for given key 
+         * 
+         * Translation is looked up in language specified in $variables['lng'],current language or fall back language - in this order. 
+         * Fall back language is used only if defined and no explicit language was specified in $variables
+         * 
+         * @param string $key key for translation
+         * @param array $variables variables
+         * @return mixed translated string or false if no matching translation has been found
+         */
 	private static function _getKey($key, $variables = array()) {
 
 		$return = false;
@@ -175,7 +212,10 @@ class i18next {
 
 		if (is_array($translation) && isset($variables['returnObjectTrees']) && $variables['returnObjectTrees'] === true)
 			$return = $translation;
-
+                // Fallback language check...
+                if ($return === false and empty($variables['lng']) and !empty(self::$_fallBackLanguage)) {
+                    $return = self::_getKey($key, array_merge($variables,array('lng'=>  self::$_fallBackLanguage)));
+                }
 		return $return;
 
 	}
