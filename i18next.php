@@ -24,16 +24,23 @@ class i18next {
     private static $_language = null;
 
     /**
+     * Fallback language for translations not found in current language
+     * @var string Fallback language
+     */
+    private static $_fallbackLanguage = 'dev';
+
+    /**
      * Array to store the translations
      * @var array Translations
      */
     private static $_translation = array();
 
     /**
-     * Fallback language for translations not found in current language
-     * @var string Fallback language
+     * Logs keys for missing translations
+     * @var array Missing keys
      */
-    private static $_fallbackLanguage = 'dev';
+    private static $_missingTranslation = array();
+
 
     /**
      * Inits i18next static class
@@ -68,6 +75,17 @@ class i18next {
     }
 
     /**
+     * Get list of missing translations
+     *
+     * @return array Missing translations
+     */
+    public static function getMissingTranslations() {
+
+        return self::$_missingTranslation;
+
+    }
+
+    /**
      * Check if translated string is available
      *
      * @param string $key Key for translation
@@ -94,6 +112,17 @@ class i18next {
     public static function getTranslation($key, $variables = array()) {
 
         $return = self::_getKey($key, $variables);
+
+        // Log missing translation
+        if (!$return && array_key_exists('lng', $variables))
+            array_push(self::$_missingTranslation, array('language' => $variables['lng'], 'key' => $key));
+
+        else if (!$return)
+            array_push(self::$_missingTranslation, array('language' => self::$_language, 'key' => $key));
+
+        // fallback language check
+        if ($return === false && !isset($variables['lng']) && !empty(self::$_fallbackLanguage))
+            $return = self::_getKey($key, array_merge($variables, array('lng'=>  self::$_fallbackLanguage)));
 
         if ($return && isset($variables['postProcess']) && $variables['postProcess'] === 'sprintf' && isset($variables['sprintf'])) {
 
@@ -242,10 +271,6 @@ class i18next {
 
         if (is_array($translation) && isset($variables['returnObjectTrees']) && $variables['returnObjectTrees'] === true)
             $return = $translation;
-
-        // fallback language check...
-        if ($return === false && empty($variables['lng']) && !empty(self::$_fallbackLanguage))
-            $return = self::_getKey($key, array_merge($variables, array('lng'=>  self::$_fallbackLanguage)));
 
         return $return;
 
