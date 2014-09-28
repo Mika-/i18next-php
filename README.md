@@ -8,6 +8,7 @@ PHP class for basic [i18next](https://github.com/jamuhl/i18next) functionality.
 - Support for [context](http://i18next.com/pages/doc_features.html#context)
 - Support for [basic sprintf](http://i18next.com/pages/doc_features.html#sprintf)
 - Support for [basic plural forms](http://i18next.com/pages/doc_features.html#plurals)
+- Support for [multiline in JSON](http://i18next.com/pages/doc_features.html)
 
 ## Usage
 
@@ -55,5 +56,26 @@ array(1) {
         ["language"]=> string(2) "en"
         ["key"]=> string(14) "common.unknown"
     }
-} 
+}
 ```
+
+## Multilines in JSON - Arrays
+You can have html content written with multilines in JSON File
+```
+{
+	"en": {
+		"common": {
+			"thedoglovers":["The Dog Lovers by Spike Milligan",
+"So they bought you",
+"And kept you in a",
+"Very good home"]
+        }
+	}
+}
+```
+
+### Note
+
+i18next-php will return array
+
+i18next will join the array with '\n'.

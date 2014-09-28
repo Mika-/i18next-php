@@ -9,6 +9,11 @@
  * ----------------------------------------------------------------------------
  */
 
+ /*
+  * extending translate json definitions for arrays
+  * <github.com/JosefMor->
+  */
+
 class i18next {
 
     /**
@@ -248,9 +253,11 @@ class i18next {
         else
             $translation = array();
 
-        foreach (explode('.', $key) as $path) {
+        // path traversal - last array will be response
+        $paths_arr = explode('.', $key);
+        while($path = array_shift($paths_arr)) {
 
-            if (array_key_exists($path, $translation) && is_array($translation[$path])) {
+            if (array_key_exists($path, $translation) && is_array($translation[$path]) && count($paths_arr)) {
 
                 $translation = $translation[$path];
 
