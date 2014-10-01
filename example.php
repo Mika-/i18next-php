@@ -31,3 +31,9 @@ echo 'common.cat { count: 2 } -> ' . t('common.cat', array('count' => 2));
 echo '<br>';
 
 echo 'common.cat { count: 2, lng: fi } -> ' . t('common.cat', array('count' => 2, 'lng' => 'fi'));
+
+echo '<hr>Array: common.thedoglovers -><br>';
+
+echo implode("<br>",t('common.thedoglovers'));
+
+?>
