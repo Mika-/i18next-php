@@ -182,8 +182,8 @@ class i18next {
 
             $translation = json_decode($translation, true);
 
-            if (!$translation)
-                throw new Exception('Invalid json');
+            if ($translation === null)
+                throw new Exception('Invalid json ' . $file);
 
             if ($hasNs) {
 
