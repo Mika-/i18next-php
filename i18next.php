@@ -238,7 +238,7 @@ class i18next {
      *
      * @param string $key Key for translation
      * @param array $variables Variables
-     * @return mixed Translated string or false if no matching translation has been found
+     * @return mixed Translated string or array if requested. False if translation doesn't exist
      */
     private static function _getKey($key, $variables = array()) {
 
@@ -255,9 +255,10 @@ class i18next {
 
         // path traversal - last array will be response
         $paths_arr = explode('.', $key);
-        while($path = array_shift($paths_arr)) {
 
-            if (array_key_exists($path, $translation) && is_array($translation[$path]) && count($paths_arr)) {
+        while ($path = array_shift($paths_arr)) {
+
+            if (array_key_exists($path, $translation) && is_array($translation[$path]) && count($paths_arr) > 0) {
 
                 $translation = $translation[$path];
 
@@ -289,11 +290,22 @@ class i18next {
                 break;
 
             }
+            else {
+
+                return false;
+
+            }
 
         }
 
-        if (is_array($translation) && isset($variables['returnObjectTrees']) && $variables['returnObjectTrees'] === true)
-            $return = $translation;
+        if (is_array($return) && isset($variables['returnObjectTrees']) && $variables['returnObjectTrees'] === true)
+            $return = $return;
+
+        else if (is_array($return) && array_keys($return) === range(0, count($return) - 1))
+            $return = implode("\n", $return);
+
+        else if (is_array($return))
+            return false;
 
         return $return;
 
