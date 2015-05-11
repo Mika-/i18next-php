@@ -165,10 +165,11 @@ class i18next {
         $path = preg_replace('/__(.+?)__/', '*', self::$_path, 2, $hasNs);
 
         if (!preg_match('/\.json$/', $path)) {
+
             $path = $path . 'translation.json';
 
-            // Fix for ns & lng parser to work since it references self::$_path
             self::$_path = self::$_path . 'translation.json';
+
         }
 
         $dir = glob($path);
@@ -188,6 +189,7 @@ class i18next {
             if ($hasNs) {
 
                 $regexp = preg_replace('/__(.+?)__/', '(?<$1>.+)?', preg_quote(self::$_path, '/'));
+
                 preg_match('/^' . $regexp . '$/', $file, $ns);
 
                 if (!array_key_exists('lng', $ns))

@@ -6,7 +6,8 @@ try {
 
 	i18next::init('en');
 
-} catch (Exception $e) {
+}
+catch (Exception $e) {
 
 	echo 'Caught exception: ' . $e->getMessage();
 
@@ -34,6 +35,4 @@ echo 'common.cat { count: 2, lng: fi } -> ' . t('common.cat', array('count' => 2
 
 echo '<hr>Array: common.thedoglovers -><br>';
 
-echo implode("<br>",t('common.thedoglovers'));
-
-?>
+echo str_replace("\n", '<br>', t('common.thedoglovers'));

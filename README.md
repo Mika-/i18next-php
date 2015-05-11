@@ -45,7 +45,7 @@ i18next::getTranslation('common.cat', array('count' => 2, 'lng' => 'fi'));
 ### boolean i18next::existTranslation( string $key );
 Checks if translated string exists.
 
-### void i18next::setLanguage( string $language [, array $fallback ] );
+### void i18next::setLanguage( string $language [, string $fallback ] );
 Changes language.
 
 ### array i18next::getMissingTranslations();
@@ -59,7 +59,7 @@ array(1) {
 }
 ```
 
-## Multilines in JSON - Arrays
+## Multilines in JSON-arrays
 You can have html content written with multilines in JSON File
 ```
 {
@@ -73,9 +73,3 @@ You can have html content written with multilines in JSON File
 	}
 }
 ```
-
-### Note
-
-i18next-php will return array
-
-i18next will join the array with '\n'.
