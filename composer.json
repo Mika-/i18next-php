@@ -1,0 +1,25 @@
+{
+    "name": "Aiken/i18next",
+    "description": "PHP class for basic i18next functionality ",
+    "version": "0.1.0",
+    "keywords": [
+        "i18next",
+        "i18n"
+    ],
+    "homepage": "https://github.com/Mika-/i18next-php",
+    "license": "Beerware",
+    "authors": [
+        {
+            "name": "Mika Simanainen",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php" : ">=5.4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Aiken\\i18next\\": "src"
+        }
+    }
+}

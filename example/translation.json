@@ -1,0 +1,42 @@
+{
+    "en": {
+        "friend": "A friend",
+        "friend_female": "A girlfriend",
+        "friend_female_plural": "{{count}} girlfriends",
+        "animal": {
+            "dog": "dog",
+            "dog_plural": "dogs",
+            "catWithCount": "__count__ cat",
+            "catWithCount_plural": "__count__ cats",
+            "thedoglovers": [
+                "The Dog Lovers by Spike Milligan",
+                "So they bought you",
+                "And kept you in a",
+                "Very good home",
+                "Cental heating",
+                "TV",
+                "A deep freeze",
+                "A very good home-",
+                "No one to take you",
+                "For that lovely long run-",
+                "But otherwise",
+                "'A very good home'",
+                "They fed you Pal and Chun",
+                "But not that lovely long run,",
+                "Until, mad with energy and boredom",
+                "You escaped- and ran and ran and ran",
+                "Under a car.",
+                "Today they will cry for you-",
+                "Tomorrow they will but another dog."
+            ]
+        }
+    },
+    "fi": {
+        "animal": {
+            "dog": "koira",
+            "dog_plural": "koiraa",
+            "catWithCount": "__count__ kissa",
+            "catWithCount_plural": "__count__ kissaa"
+        }
+    }
+}

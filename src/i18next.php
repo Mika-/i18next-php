@@ -9,10 +9,7 @@
  * ----------------------------------------------------------------------------
  */
 
- /*
-  * extending translate json definitions for arrays
-  * <github.com/JosefMor->
-  */
+namespace Aiken\i18next;
 
 class i18next {
 
@@ -147,8 +144,10 @@ class i18next {
 
         foreach ($variables as $variable => $value) {
 
-            if (is_string($value) || is_numeric($value))
+            if (is_string($value) || is_numeric($value)) {
                 $return = preg_replace('/__' . $variable . '__/', $value, $return);
+                $return = preg_replace('/{{' . $variable . '}}/', $value, $return);
+            }
 
         }
 
@@ -158,7 +157,7 @@ class i18next {
 
     /**
      * Loads translation(s)
-     * @throws Exception
+     * @throws \Exception
      */
     private static function loadTranslation() {
 
@@ -175,7 +174,7 @@ class i18next {
         $dir = glob($path);
 
         if (count($dir) === 0)
-            throw new Exception('Translation file not found');
+            throw new \Exception('Translation file not found');
 
         foreach ($dir as $file) {
 
@@ -184,7 +183,7 @@ class i18next {
             $translation = json_decode($translation, true);
 
             if ($translation === null)
-                throw new Exception('Invalid json ' . $file);
+                throw new \Exception('Invalid json ' . $file);
 
             if ($hasNs) {
 
