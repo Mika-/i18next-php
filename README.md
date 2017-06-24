@@ -17,7 +17,7 @@ PHP class for basic [i18next](https://github.com/jamuhl/i18next) functionality.
 i18next::init('en');
 
 // get translation by key
-echo i18next::getTranslation('common.dog');
+echo i18next::getTranslation('animal.dog');
 ```
 
 ## Methods
@@ -31,7 +31,7 @@ i18next::init('en', 'my/path/');
 You can also use variables and split namespaces and languages to different files.
 ```php
 i18next::init('en', 'languages/__lng__/__ns__.json');
-// loads languages/en/common.json, languages/fi/common.json, etc...
+// loads languages/en/animal.json, languages/fi/animal.json, etc...
 ```
 
 Method throws an exception if no files are found or the json can not be parsed.
@@ -39,7 +39,7 @@ Method throws an exception if no files are found or the json can not be parsed.
 ### mixed i18next::getTranslation( string $key [, array $variables ] );
 Returns translated string by key.
 ```php
-i18next::getTranslation('common.cat', array('count' => 2, 'lng' => 'fi'));
+i18next::getTranslation('animal.catWithCount', array('count' => 2, 'lng' => 'fi'));
 ```
 
 ### boolean i18next::existTranslation( string $key );
@@ -54,7 +54,7 @@ Gets an array of missing translations.
 array(1) {
     [0]=> array(2) {
         ["language"]=> string(2) "en"
-        ["key"]=> string(14) "common.unknown"
+        ["key"]=> string(14) "animal.unknown"
     }
 }
 ```
@@ -65,10 +65,12 @@ You can have html content written with multilines in JSON File
 {
 	"en": {
 		"common": {
-			"thedoglovers":["The Dog Lovers by Spike Milligan",
-"So they bought you",
-"And kept you in a",
-"Very good home"]
+			"thedoglovers": [
+                "The Dog Lovers by Spike Milligan",
+                "So they bought you",
+                "And kept you in a",
+                "Very good home"
+            ]
         }
 	}
 }
