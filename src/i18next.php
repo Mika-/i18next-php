@@ -281,6 +281,9 @@ class i18next {
                     if ($variables['count'] != 1 && array_key_exists($path . '_plural_' . $variables['count'], $translation))
                         $path = $path . '_plural' . $variables['count'];
 
+                    if ($variables['count'] == 0 && array_key_exists($path . '_0', $translation))
+                        $path = $path . '_0';
+
                     else if ($variables['count'] != 1 && array_key_exists($path . '_plural', $translation))
                         $path = $path . '_plural';
 
